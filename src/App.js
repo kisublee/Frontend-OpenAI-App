@@ -54,31 +54,31 @@ function App() {
 } 
 
   return (
-<div>
-     <form onSubmit={handleSubmit}>
-       <input
-        id="search"
-        value={search}
-        type="text"
-        onChange={(event) => handleChange(event)}
-        placeholder={"What do you wanna ask?"}
-       />
-       <button>Submit</button>
-     </form>
-     <p>You asked: {prevHistory.length > 0 ? prevHistory[prevHistory.length-1].prevSearch : ""}</p>
-     <p>response: {result}</p>
-     {/* <div>
-       {prevHistory && prevHistory.map((each,i) => {
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            id="search"
+            value={search}
+            type="text"
+            onChange={(event) => handleChange(event)}
+            placeholder={"What do you wanna ask?"}
+          />
+          <button>Submit</button>
+        </form>
+        <p>You asked: {prevHistory.length > 0 ? prevHistory[prevHistory.length-1].prevSearch : ""}</p>
+        <p>response: {result}</p>
+        {/* <div>
+          {prevHistory && prevHistory.map((each,i) => {
 
-         return (
-           <div key={i}>
-             <h1>{each.prevSearch}</h1>
-           <p>{each.prevResult}</p>
-           </div>
-         )
-       })}
-     </div> */}
-   </div>
+            return (
+              <div key={i}>
+                <h1>{each.prevSearch}</h1>
+              <p>{each.prevResult}</p>
+              </div>
+            )
+          })}
+        </div> */}
+      </div>
   );
 }
 
