@@ -15,11 +15,16 @@ export default function Landing () {
      // Set states for search and result. prevHistory to save all searches
   const [search, setSearch] = useState("");
   const [result, setResult] = useState("");
+  const [isHovering, setIsHovering] = useState(false);
   const [prevHistory, setPrevHistory] = useState([]);
 
   // Set Event handler to get users' search
   const handleChange = (event) => {
     setSearch(event.target.value);
+  }
+
+  const handleMouseOver = () => {
+    setIsHovering(!isHovering);
   }
 
   // API KEY for Open AI
@@ -81,15 +86,17 @@ export default function Landing () {
             <Box  >
             <button 
               onClick={handleSubmit} 
+              onMouseEnter={handleMouseOver}
+              onMouseLeave={handleMouseOver}
               style={{
                 marginTop:"5px",
-                color:"white", 
-                backgroundColor:"#DA0000",
+                color: isHovering ? "yellow" : "white", 
+                backgroundColor: isHovering ? "#4073C2" : "#DA0000",
                 height:"5ch", 
                 width:"12ch",
                 float:"right",
                 fontWeight: "bold",
-                border:"#920404 ",
+                border:"#920404 "
                 }}
                 >
                 Submit
