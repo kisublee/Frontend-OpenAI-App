@@ -6,26 +6,43 @@ import FormControl from "@mui/material/FormControl";
 import {TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Divider from '@mui/material/Divider';
-
+import LinearProgress from '@mui/material/LinearProgress';
+import MoodSlider from "../utilities/MoodSlider"
+import SelectTone from "../utilities/SelectTone";
 // Import OpenAI
 const { Configuration, OpenAIApi } = require("openai");
 
 export default function Landing () {
 
-     // Set states for search and result. prevHistory to save all searches
+  // Set states for search and result. prevHistory to save all searches
   const [search, setSearch] = useState("");
   const [result, setResult] = useState("");
-  const [isHovering, setIsHovering] = useState(false);
   const [prevHistory, setPrevHistory] = useState([]);
+
+  // Set states for hovering effect for the submit button
+  const [isHovering, setIsHovering] = useState(false);
+  
+  // Set states for loading animation
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Set states for Open AI's temperature, deciding randomness of answers
+  const [tone, setTone] = useState(0)
 
   // Set Event handler to get users' search
   const handleChange = (event) => {
     setSearch(event.target.value);
+    setIsLoading(true);
   }
 
+  // Set Event handler for the hover effect for the submit button
   const handleMouseOver = () => {
     setIsHovering(!isHovering);
   }
+ 
+  // Set Event handler to change Open AI's temperature
+ const handleTone = (event) => {
+    setTone(Number(event.target.value));
+  };
 
   // API KEY for Open AI
   const APIKEY = process.env.REACT_APP_OPENAI_API_KEY;
@@ -44,7 +61,7 @@ export default function Landing () {
     try{
     const response = await openai.createCompletion("text-curie-001", {
         prompt: `${search}`,
-        temperature: 0.99,
+        temperature: tone,
         max_tokens: 200,
         top_p: 1,
         frequency_penalty: 0,
@@ -55,8 +72,9 @@ export default function Landing () {
       }
     );
       setResult(response.data.choices[0].text);
-      setPrevHistory([...prevHistory, {prevSearch:search, prevResult: response.data.choices[0].text}])
+      setPrevHistory([...prevHistory, {prevSearch:search, prevResult: response.data.choices[0].text}]);
       setSearch("");
+      setIsLoading(false);
   }catch (error) {
     if (error.response) {
       console.log(error.response.status);
@@ -66,7 +84,6 @@ export default function Landing () {
     }
   };
 } 
-
     return (
       <section>
             <FormControl required>
@@ -96,7 +113,7 @@ export default function Landing () {
                 width:"12ch",
                 float:"right",
                 fontWeight: "bold",
-                border:"#920404 "
+                border:"#920404",
                 }}
                 >
                 Submit
@@ -108,30 +125,27 @@ export default function Landing () {
               fontFamily: "sans-serif",
               fontSize: 20,
               letterSpacing: 1,
-              fontWeight: "bold"
+              fontWeight: "bold",
               }}
               >
                 Our conversation
               </Typography>
-            <Divider variant="full" sx={{backgroundColor:"white", height:"2px", mt:1, mb:1}} />
-            <Box sx={{width:"40ch"}}>
-              <Typography sx={{color:"white"}}>
-                You asked: {prevHistory.length > 0 ? prevHistory[prevHistory.length-1].prevSearch : ""}
-              </Typography>
-              <Typography sx={{color:"white"}}>
-                My response: {result}
-              </Typography>
-                {/* <div>
-       {prevHistory && prevHistory.map((each,i) => {
-
-         return (
-           <div key={i}>
-             <p style={{color:"white"}}>{each.prevSearch}</p>
-           <p style={{color:"white"}}>{each.prevResult}</p>
-           </div>
-         )
-       })}
-     </div> */}
+              <SelectTone setTone={setTone} tone={tone} handleTone={handleTone}/>
+            {isLoading ? <LinearProgress color="secondary" /> : <Divider variant="full" sx={{backgroundColor:"white", height:"2px", mt:1, mb:1}} />}
+            <Box sx={{width:"40ch"}}>   
+          {prevHistory && prevHistory.map((each,i) => {
+            return (
+              <article key={i+"#saltingKey"}>
+                  <Typography sx={{color:"white"}}>
+                  <span style={{color:"#E7E172"}}>You asked:</span> {prevHistory[prevHistory.length-1-i].prevSearch}
+                  </Typography>
+                  <Typography sx={{color:"white"}}>
+                    <span style={{color:"#4D4BB2"}}>My response:</span> {prevHistory[prevHistory.length-1-i].prevResult}
+                  </Typography> 
+                  <Divider variant="full" sx={{backgroundColor:"darkGrey", height:"2px", mt:1, mb:1}} />
+                  </article>
+            )
+          })}
             </Box>
             </FormControl>
            

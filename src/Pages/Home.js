@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Typography from "@mui/material/Typography";
 
 // Import components
-import Landing from "../Components/Landing";
+import Landing from "../components/Landing";
 
 export default function Home () {
 
@@ -43,8 +43,6 @@ export default function Home () {
              </Box>
             </Box>
         </Container>
-        
     </React.Fragment>
-    
-    )
+)
 }
