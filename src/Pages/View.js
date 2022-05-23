@@ -1,4 +1,4 @@
-import ViewSearchHistory from "../Components/ViewSearchHistory";
+import ViewSearchHistory from "../components/ViewSearchHistory";
 
 export default function View () {
 
