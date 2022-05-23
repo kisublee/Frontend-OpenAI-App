@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Typography from "@mui/material/Typography";
 
 // Import components
-import Landing from "../components/Landing";
+import Landing from "../Components/Landing";
 
 export default function Home () {
 
