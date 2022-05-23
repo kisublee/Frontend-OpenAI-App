@@ -7,7 +7,6 @@ import {TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Divider from '@mui/material/Divider';
 import LinearProgress from '@mui/material/LinearProgress';
-import MoodSlider from "../utilities/MoodSlider"
 import SelectTone from "../utilities/SelectTone";
 // Import OpenAI
 const { Configuration, OpenAIApi } = require("openai");
